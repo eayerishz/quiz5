@@ -59,7 +59,6 @@ class UserProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        # Fetch the authenticated user
         user = request.user
-        serializer = UserSerializer(user)  # Serialize the user and associated account data
+        serializer = UserSerializer(user) 
         return Response(serializer.data)

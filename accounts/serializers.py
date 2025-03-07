@@ -1,15 +1,13 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Account
-
-class AccountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-        fields = ['bio', 'profile_picture', 'phone_number', 'address', 'createdAt', 'updatedAt']
+from .models import Account  
 
 class UserSerializer(serializers.ModelSerializer):
-    account = AccountSerializer()  # Nested AccountSerializer to include account fields
+    bio = serializers.CharField(source='account.bio', allow_blank=True, required=False)
+    profile_picture = serializers.ImageField(source='account.profile_picture', allow_null=True, required=False)
+    phone_number = serializers.CharField(source='account.phone_number', allow_blank=True, required=False)
+    address = serializers.CharField(source='account.address', allow_blank=True, required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'account']  # Include 'account' for profile data
+        fields = ['username', 'email', 'first_name', 'last_name', 'bio', 'profile_picture', 'phone_number', 'address']
